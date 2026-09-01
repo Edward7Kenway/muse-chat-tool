@@ -72,7 +72,7 @@ export function MessageItem({ message, streaming, canRegenerate, onRegenerate }:
         </div>
       ) : (
         <div className={cn(streaming && !message.content && "text-muted-foreground")}>
-          <div className={cn(streaming && "streaming-caret-wrap")}>
+          <div className={cn(streaming && "streaming-caret")}>
             <Markdown content={message.content} />
           </div>
         </div>
