@@ -7,7 +7,7 @@
 
 // Paste your Gemini API key here
 export const GEMINI_API_KEY =
-  (import.meta.env?.VITE_GEMINI_API_KEY as string | undefined) ??
+  (import.meta.env?.['VITE_GEMINI_API_KEY'] as string | undefined) ??
   "PASTE_YOUR_GEMINI_API_KEY_HERE";
 
 /** Base URL of the Gemini REST API. */

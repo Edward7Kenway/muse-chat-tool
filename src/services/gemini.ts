@@ -44,7 +44,7 @@ interface StreamOptions {
   model: ModelKey;
   messages: ChatMessage[];
   systemInstruction?: string;
-  signal?: AbortSignal;
+  signal?: AbortSignal | undefined;
   onDelta: (chunk: string) => void;
 }
 
@@ -63,7 +63,7 @@ export async function streamResponse({
     res = await fetch(endpoint(model, true), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      signal,
+      ...(signal ? { signal } : {}),
       body: JSON.stringify({
         contents: toContents(messages),
         systemInstruction: { parts: [{ text: systemInstruction }] },
@@ -117,8 +117,8 @@ export async function streamResponse({
 export async function generateResponse(options: {
   model: ModelKey;
   prompt: string;
-  systemInstruction?: string;
-  signal?: AbortSignal;
+  systemInstruction?: string | undefined;
+  signal?: AbortSignal | undefined;
 }): Promise<string> {
   if (!isApiKeyConfigured()) throw new GeminiError(MESSAGES.missingKey);
 
@@ -127,7 +127,7 @@ export async function generateResponse(options: {
     res = await fetch(endpoint(options.model, false), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      signal: options.signal,
+      ...(options.signal ? { signal: options.signal } : {}),
       body: JSON.stringify({
         contents: [{ role: "user", parts: [{ text: options.prompt }] }],
         ...(options.systemInstruction
@@ -196,7 +196,7 @@ export function buildMailPrompt(input: {
   tone: MailTone;
   instructions: string;
 }): string {
-  const tone = MAIL_TONES.find((t) => t.value === input.tone) ?? MAIL_TONES[0];
+  const tone = MAIL_TONES.find((t) => t.value === input.tone) ?? MAIL_TONES[0]!;
   return `You are an expert professional email writer.
 
 Write an email based on the user's instructions.
@@ -223,12 +223,12 @@ export async function generateMail(input: {
   subject: string;
   tone: MailTone;
   instructions: string;
-  signal?: AbortSignal;
+  signal?: AbortSignal | undefined;
 }): Promise<string> {
   const text = await generateResponse({
     model: input.model,
     prompt: buildMailPrompt(input),
-    signal: input.signal,
+    ...(input.signal ? { signal: input.signal } : {}),
   });
   return text.replace(/^```[a-z]*\n?/i, "").replace(/```$/, "").trim();
 }

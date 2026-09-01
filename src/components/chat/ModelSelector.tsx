@@ -14,7 +14,7 @@ interface Props {
 }
 
 export function ModelSelector({ value, onChange }: Props) {
-  const active = MODEL_OPTIONS.find((m) => m.key === value) ?? MODEL_OPTIONS[0];
+  const active = MODEL_OPTIONS.find((m) => m.key === value) ?? MODEL_OPTIONS[0]!;
 
   return (
     <DropdownMenu>

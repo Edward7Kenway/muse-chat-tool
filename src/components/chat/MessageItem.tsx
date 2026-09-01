@@ -7,9 +7,9 @@ import { cn } from "@/lib/utils";
 
 interface Props {
   message: ChatMessage;
-  streaming?: boolean;
-  canRegenerate?: boolean;
-  onRegenerate?: () => void;
+  streaming?: boolean | undefined;
+  canRegenerate?: boolean | undefined;
+  onRegenerate?: (() => void) | undefined;
 }
 
 function ActionButton({
@@ -19,8 +19,8 @@ function ActionButton({
   children,
 }: {
   label: string;
-  active?: boolean;
-  onClick?: () => void;
+  active?: boolean | undefined;
+  onClick?: (() => void) | undefined;
   children: React.ReactNode;
 }) {
   return (
@@ -72,7 +72,7 @@ export function MessageItem({ message, streaming, canRegenerate, onRegenerate }:
         </div>
       ) : (
         <div className={cn(streaming && !message.content && "text-muted-foreground")}>
-          <div className={cn(streaming && "streaming-caret-wrap")}>
+          <div className={cn(streaming && "streaming-caret")}>
             <Markdown content={message.content} />
           </div>
         </div>

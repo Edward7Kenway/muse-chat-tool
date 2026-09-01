@@ -22,7 +22,7 @@ interface Props {
   onRename: (id: string, title: string) => void;
   onDelete: (id: string) => void;
   onOpenMail: () => void;
-  onClose?: () => void;
+  onClose?: (() => void) | undefined;
 }
 
 export function AppSidebar({
@@ -156,7 +156,7 @@ export function AppSidebar({
                               Rename
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                              variant="destructive"
+                              className="text-destructive focus:text-destructive"
                               onSelect={() => onDelete(c.id)}
                             >
                               <Trash2 className="size-4" />
