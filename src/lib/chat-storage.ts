@@ -65,10 +65,10 @@ export function groupConversations(conversations: Conversation[]): ConversationG
   ];
 
   for (const c of [...conversations].sort((a, b) => b.updatedAt - a.updatedAt)) {
-    if (c.updatedAt >= startOfToday) groups[0].items.push(c);
-    else if (c.updatedAt >= startOfYesterday) groups[1].items.push(c);
-    else if (c.updatedAt >= startOfWeek) groups[2].items.push(c);
-    else groups[3].items.push(c);
+    if (c.updatedAt >= startOfToday) groups[0]!.items.push(c);
+    else if (c.updatedAt >= startOfYesterday) groups[1]!.items.push(c);
+    else if (c.updatedAt >= startOfWeek) groups[2]!.items.push(c);
+    else groups[3]!.items.push(c);
   }
 
   return groups.filter((g) => g.items.length > 0);

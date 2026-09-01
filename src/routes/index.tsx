@@ -185,7 +185,7 @@ function AssistantPage() {
   const regenerate = useCallback(() => {
     if (!active || isGenerating) return;
     const messages = [...active.messages];
-    while (messages.length && messages[messages.length - 1].role === "assistant") {
+    while (messages.length && messages[messages.length - 1]!.role === "assistant") {
       messages.pop();
     }
     if (!messages.length) return;
