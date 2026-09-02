@@ -1,14 +1,10 @@
 /**
  * Central configuration for the AI assistant.
  *
- * This is the ONLY place where the Gemini API key and model IDs live.
- * Nothing else in the codebase should hardcode these values.
+ * Model IDs and UI options live here. The Gemini API key is managed at
+ * runtime through the Connect button (src/lib/api-key.ts) — it is stored
+ * in the browser and never hardcoded in this file.
  */
-
-// Paste your Gemini API key here
-export const GEMINI_API_KEY =
-  (import.meta.env?.['VITE_GEMINI_API_KEY'] as string | undefined) ??
-  "PASTE_YOUR_GEMINI_API_KEY_HERE";
 
 /** Base URL of the Gemini REST API. */
 export const GEMINI_API_BASE_URL = "https://generativelanguage.googleapis.com/v1beta";
@@ -48,8 +44,3 @@ export const DEFAULT_MODEL: ModelKey = "fast";
 
 export const SYSTEM_INSTRUCTION =
   "You are a helpful, precise AI assistant. Use Markdown for structure and always put code inside fenced code blocks with a language tag.";
-
-/** True when the user has actually configured a key. */
-export function isApiKeyConfigured(): boolean {
-  return Boolean(GEMINI_API_KEY) && GEMINI_API_KEY !== "PASTE_YOUR_GEMINI_API_KEY_HERE";
-}

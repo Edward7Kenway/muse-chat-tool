@@ -1,17 +1,11 @@
-import {
-  GEMINI_API_BASE_URL,
-  GEMINI_API_KEY,
-  MODELS,
-  SYSTEM_INSTRUCTION,
-  isApiKeyConfigured,
-  type ModelKey,
-} from "@/config";
+import { GEMINI_API_BASE_URL, MODELS, SYSTEM_INSTRUCTION, type ModelKey } from "@/config";
+import { getApiKey, hasApiKey } from "@/lib/api-key";
 import type { ChatMessage, MailTone } from "@/types/chat";
 
 export class GeminiError extends Error {}
 
 const MESSAGES = {
-  missingKey: "Gemini API key is not configured. Please add your API key in config.ts.",
+  missingKey: "Connect your Gemini API key using the Connect button in the top bar.",
   auth: "Authentication failed. Please check your Gemini API key.",
   quota: "API limit reached. Please try again later.",
   network: "Unable to connect to Gemini. Please check your internet connection.",
@@ -21,7 +15,7 @@ const MESSAGES = {
 function endpoint(model: ModelKey, stream: boolean) {
   const id = MODELS[model];
   const method = stream ? "streamGenerateContent?alt=sse&" : "generateContent?";
-  return `${GEMINI_API_BASE_URL}/models/${id}:${method}key=${encodeURIComponent(GEMINI_API_KEY)}`;
+  return `${GEMINI_API_BASE_URL}/models/${id}:${method}key=${encodeURIComponent(getApiKey())}`;
 }
 
 function toContents(messages: ChatMessage[]) {
@@ -56,7 +50,7 @@ export async function streamResponse({
   signal,
   onDelta,
 }: StreamOptions): Promise<string> {
-  if (!isApiKeyConfigured()) throw new GeminiError(MESSAGES.missingKey);
+if (!hasApiKey()) throw new GeminiError(MESSAGES.missingKey);
 
   let res: Response;
   try {
@@ -120,7 +114,7 @@ export async function generateResponse(options: {
   systemInstruction?: string | undefined;
   signal?: AbortSignal | undefined;
 }): Promise<string> {
-  if (!isApiKeyConfigured()) throw new GeminiError(MESSAGES.missingKey);
+  if (!hasApiKey()) throw new GeminiError(MESSAGES.missingKey);
 
   let res: Response;
   try {
