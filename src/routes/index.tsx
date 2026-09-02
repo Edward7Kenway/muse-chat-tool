@@ -6,9 +6,11 @@ import { AppSidebar, type View } from "@/components/AppSidebar";
 import { DraftMail } from "@/components/DraftMail";
 import { ChatInput } from "@/components/chat/ChatInput";
 import { MessageItem } from "@/components/chat/MessageItem";
+import { ApiKeyButton } from "@/components/chat/ApiKeyButton";
 import { ModelSelector } from "@/components/chat/ModelSelector";
 import { WelcomeScreen } from "@/components/chat/WelcomeScreen";
-import { DEFAULT_MODEL, isApiKeyConfigured, type ModelKey } from "@/config";
+import { DEFAULT_MODEL, type ModelKey } from "@/config";
+import { hasApiKey, subscribeApiKey } from "@/lib/api-key";
 import {
   createConversation,
   createMessage,
@@ -50,8 +52,9 @@ function AssistantPage() {
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [streamingId, setStreamingId] = useState<string | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+const [sidebarOpen, setSidebarOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const [apiKeyConnected, setApiKeyConnected] = useState<boolean>(() => hasApiKey());
 
   const abortRef = useRef<AbortController | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -63,6 +66,8 @@ function AssistantPage() {
     if (stored[0]?.model) setModel(stored[0].model);
     setHydrated(true);
   }, []);
+
+  useEffect(() => subscribeApiKey((key) => setApiKeyConnected(key.length > 0)), []);
 
   useEffect(() => {
     if (hydrated) saveConversations(conversations);
@@ -287,7 +292,8 @@ function AssistantPage() {
           ) : (
             <span className="px-2 text-sm font-medium">Draft Mail</span>
           )}
-          <div className="ml-auto">
+<div className="ml-auto flex items-center gap-1.5">
+            <ApiKeyButton />
             <button
               type="button"
               onClick={newChat}
@@ -299,10 +305,10 @@ function AssistantPage() {
           </div>
         </header>
 
-        {!isApiKeyConfigured() ? (
+{!apiKeyConnected ? (
           <div className="flex items-start gap-2.5 border-b border-destructive/20 bg-destructive/5 px-4 py-2.5 text-sm text-destructive">
             <AlertTriangle className="mt-0.5 size-4 shrink-0" />
-            <p>Gemini API key is not configured. Please add your API key in config.ts.</p>
+            <p>Connect your Gemini API key with the Connect button in the top bar to start chatting.</p>
           </div>
         ) : null}
 
