@@ -938,5 +938,7 @@ git clone <this-repository-url>
 cd <repository-name>
 npm i
 npm run dev
-AQ.Ab8RN6I-Vt5gm_GaHnSOjmV-9tAeX-6JGwIxB54jWVRGv8HJrQ
+
+
+AQ.Ab8RN6Ks837MqJBzL5aT8lQ8meftUHD5nCuiLsBE9-SNkV_OuQ
 ```
