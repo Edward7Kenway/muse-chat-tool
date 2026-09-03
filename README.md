@@ -939,6 +939,9 @@ cd <repository-name>
 npm i
 npm run dev
 
+paste bin :
 
-AQ.Ab8RN6Ks837MqJBzL5aT8lQ8meftUHD5nCuiLsBE9-SNkV_OuQ
+https://pastebin.com/kTSDV5Zc
+
+
 ```
