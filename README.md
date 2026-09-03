@@ -941,7 +941,6 @@ npm run dev
 
 paste bin :
 
-https://pastebin.com/kTSDV5Zc
-
+https://pastewala.com/Ujg3faxc/unlock
 
 ```
