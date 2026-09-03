@@ -2,6 +2,10 @@
 
 Build a fully functional text-based AI chat application inspired by the current Google Gemini web interface, but do NOT copy Google's branding, logo, proprietary assets, or exact visual design. The application should feel modern, professional, clean, and production-ready.
 
+# Architecture :
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/4a6e41fd-1fce-4916-902c-55aba8c221a2" />
+
+
 1. Core Requirement
 
 Create a working text-based AI assistant with:
